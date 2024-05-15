@@ -1,6 +1,5 @@
 from  .ILoanRepository import ILoanRepository
 from .Util import DBConnutil,Db_prop
-from .Entity import Loan,Customer
 from .Exception import ApplyLoneException,calculateEMIException,InvalidLoanException,RetriveloanException,calculateInterestException
 from tabulate import tabulate
 
@@ -42,11 +41,15 @@ class ILoanRepositoryImpl(ILoanRepository):
             result=self.cursor.fetchone()
             if result:
                 ##self.calculateInterest(result[0],result[1],result[2])
-                credit_score = result
+                credit_score = result[0]
                 if credit_score>650:
                     print("Approved")
+                    self.cursor.execute("update Loan set loanStatus='Approved' where loanID=?;",(loanId))
+                    self.connection.commit()
                 else:
                     print("Rejected")
+                    self.cursor.execute("update Loan set loanStatus='Rejected' where loanID=?;",(loanId))
+                    self.connection.commit()
             else:
                 raise InvalidLoanException("Loan not found")
         except Exception as e:

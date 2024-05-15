@@ -8,7 +8,8 @@ def mainmenu():
     print("4. loanRepayment")
     print("5. getAllLoan")
     print("6. getLoanByID")
-    print("7. Exit")
+    print("7. getLoanStatus")
+    print("8. Exit")
 while True:
     mainmenu()
     loanservice=ILoanRepositoryImpl()
@@ -19,8 +20,8 @@ while True:
         principalAmount = float(input("Enter Principal Amount: "))
         interestRate = float(input("Enter Interest Rate: "))
         loanTerm = int(input("Enter Loan Term (in months): "))
-        loanType = input("Enter Loan Type: ")
-        loanStatus = input("Enter Loan Status: ")
+        loanType = input("Enter Loan Type: CarLoan/HomeLoan: ")
+        loanStatus = "Pending"
         
         loan = Loan(loanID, customerID, principalAmount, interestRate, loanTerm, loanType, loanStatus)
         loanservice.applyLoan(loan)
@@ -39,6 +40,9 @@ while True:
         loneid=int(input("Enter the loneID: "))
         loanservice.getLoanById(loneid)
     elif choice==7:
+        loneid=int(input("Enter the loneID: "))
+        loanservice.loanStatus(loneid)
+    elif choice==8:
         loanservice.close()
         break
     else:
