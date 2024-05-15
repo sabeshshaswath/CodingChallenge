@@ -42,4 +42,4 @@ while True:
         loanservice.close()
         break
     else:
-        print("Please enter the choise within range")
+        print("Please enter the choice within range")
